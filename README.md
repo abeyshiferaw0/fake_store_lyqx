@@ -7,7 +7,7 @@ This is a simple E-Commerce App built with Flutter, designed to showcase the ski
 To run this project on your local machine, follow these steps:
 
 ```bash
-flutter version used 3.29
+flutter version used 3.29.2
 ```
 
 1. Clone this repository:
