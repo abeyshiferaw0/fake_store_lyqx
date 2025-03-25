@@ -13,7 +13,7 @@ flutter version used 3.29.2
 1. Clone this repository:
 ```bash
 clone https://github.com/abeyshiferaw0/fake_store_lyqx.git
-cd ecommerce-app
+cd fake_store_lyqx
 ```
 2. Get the dependencies:
 ```bash
