@@ -115,7 +115,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     return ItemProductList(
                       product: state.products.elementAt(index),
                       onTap: () {
-                        context.go(AppRoutes.details);
+                        context.push(
+                          AppRoutes.details,
+                          extra: state.products.elementAt(index).id,
+                        );
                       },
                     );
                   },

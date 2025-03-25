@@ -56,7 +56,9 @@ final GoRouter goRouter = GoRouter(
     GoRoute(
       path: AppRoutes.details,
       builder: (BuildContext context, GoRouterState state) {
-        return ProductDetailScreen();
+        return ProductDetailScreen(
+          id: state.extra as int,
+        );
       },
     ),
     StatefulShellRoute.indexedStack(

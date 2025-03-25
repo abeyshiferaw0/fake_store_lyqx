@@ -1,12 +1,37 @@
 import 'package:fake_store_lyqx/config/colors.dart';
 import 'package:fake_store_lyqx/config/constants.dart';
+import 'package:fake_store_lyqx/core/di/injector.dart';
+import 'package:fake_store_lyqx/data/models/product.dart';
 import 'package:fake_store_lyqx/gen/assets.gen.dart';
+import 'package:fake_store_lyqx/presentation/blocs/products/products_bloc.dart';
 import 'package:fake_store_lyqx/presentation/widgets/custom_large_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
-class ProductDetailScreen extends StatelessWidget {
-  const ProductDetailScreen({super.key});
+class ProductDetailScreen extends StatefulWidget {
+  const ProductDetailScreen({super.key, required this.id});
+
+  //
+  final int id;
+
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  final ProductsBloc productsBloc = getIt<ProductsBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    //
+    productsBloc.add(
+      FetchProductEvent(widget.id),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,42 +39,54 @@ class ProductDetailScreen extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: Column(
-        children: [
-          //
-          Expanded(
-            child: Stack(
+      body: BlocBuilder<ProductsBloc, ProductsState>(
+        bloc: productsBloc,
+        builder: (context, state) {
+          if (state is ProductSuccess) {
+            return Column(
               children: [
-                //Build product details
-                buildProductDetail(context, textTheme),
+                //
+                Expanded(
+                  child: Stack(
+                    children: [
+                      //Build product details
+                      buildProductDetail(context, textTheme, state.product),
 
-                //Build app bar
-                SafeArea(
-                  child: buildAppBar(),
+                      //Build app bar
+                      SafeArea(
+                        child: buildAppBar(),
+                      ),
+                    ],
+                  ),
+                ),
+
+                //Build product footer cart button
+                CustomLargeButton(
+                  buttonTxt: "Add to cart",
+                  labelTxt: "Price",
+                  priceTxt: "\$${state.product.price}",
                 ),
               ],
-            ),
-          ),
-
-          //Build product footer cart button
-          CustomLargeButton(
-            buttonTxt: "Add to cart",
-            labelTxt: "Price",
-            priceTxt: "\$79.99",
-          ),
-        ],
+            );
+          }
+          return SizedBox();
+        },
       ),
     );
   }
 
-  Column buildProductDetail(BuildContext context, TextTheme textTheme) {
+  Column buildProductDetail(
+    BuildContext context,
+    TextTheme textTheme,
+    ProductModel product,
+  ) {
     return Column(
       children: [
         //Build product image
         Expanded(
           child: Image.network(
             width: double.infinity,
-            "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmlkZW8lMjBnYW1lJTIwY29udHJvbGxlcnxlbnwwfHwwfHx8MA%3D%3D",
+            product.image,
             fit: BoxFit.cover,
           ),
         ),
@@ -64,7 +101,7 @@ class ProductDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Xbox One Elite Series 2 Controller",
+                product.title,
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: AppConstants.sp_20,
@@ -74,7 +111,7 @@ class ProductDetailScreen extends StatelessWidget {
                 height: AppConstants.h_1 * 1.4,
               ),
               Text(
-                "Gaming Category",
+                product.category,
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(
                       fontWeight: FontWeight.w400,
                       color: Colors.black.withValues(alpha: 0.5),
@@ -94,7 +131,7 @@ class ProductDetailScreen extends StatelessWidget {
                     width: AppConstants.w_2,
                   ),
                   Text(
-                    "4.25",
+                    product.rating.rate.toString(),
                     style: textTheme.bodyMedium!.copyWith(
                       fontSize: AppConstants.sp_15,
                       color: AppColors.bodyTextColor,
@@ -104,7 +141,7 @@ class ProductDetailScreen extends StatelessWidget {
                     width: AppConstants.w_2,
                   ),
                   Text(
-                    "12 Reviews",
+                    "${product.rating.count} Reviews",
                     style: textTheme.bodyMedium!.copyWith(
                       fontSize: AppConstants.sp_15,
                       color: AppColors.hintTextColor,
@@ -124,7 +161,9 @@ class ProductDetailScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         MaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            context.pop();
+          },
           child: SvgPicture.asset(
             Assets.icons.icArrowLeft,
             colorFilter: ColorFilter.mode(Color(0xff3A3A3A), BlendMode.srcIn),

@@ -17,3 +17,18 @@ class ProductsFailure extends ProductsState {
 
   ProductsFailure(this.errorMessage);
 }
+
+
+class ProductLoading extends ProductsState {}
+
+class ProductSuccess extends ProductsState {
+  final ProductModel product;
+
+  ProductSuccess(this.product);
+}
+
+class ProductFailure extends ProductsState {
+  final String errorMessage;
+
+  ProductFailure(this.errorMessage);
+}

@@ -1,13 +1,12 @@
-import 'dart:convert';
 
 import 'package:fake_store_lyqx/core/api/api_service.dart';
 import 'package:fake_store_lyqx/data/models/product.dart';
-import 'package:fake_store_lyqx/data/models/user.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ProductRepository {
   Future<List<ProductModel>> fetchProducts();
+
+  Future<ProductModel> fetchProduct(int id);
 }
 
 @LazySingleton(as: ProductRepository)
@@ -25,5 +24,14 @@ class ProductRepositoryImpl implements ProductRepository {
     }).toList();
 
     return products;
+  }
+
+  @override
+  Future<ProductModel> fetchProduct(int id) async {
+    final data = await _apiService.fetchProduct(id);
+
+    final ProductModel product = ProductModel.fromJson(data);
+
+    return product;
   }
 }

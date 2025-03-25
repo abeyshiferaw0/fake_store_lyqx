@@ -28,7 +28,7 @@ class ItemProductList extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: AppConstants.w_4*1.2,
+            horizontal: AppConstants.w_4 * 1.2,
             vertical: AppConstants.h_2 * 0.8,
           ),
           child: Stack(
@@ -67,7 +67,8 @@ class ItemProductList extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.bodyMedium!.copyWith(
                             fontSize: AppConstants.sp_15,
-                            color: AppColors.bodyTextColor.withValues(alpha: 0.5),
+                            color:
+                                AppColors.bodyTextColor.withValues(alpha: 0.5),
                           ),
                         ),
                         SizedBox(
@@ -83,7 +84,7 @@ class ItemProductList extends StatelessWidget {
                               width: AppConstants.w_2,
                             ),
                             Text(
-                              product.rating.count.toString(),
+                              product.rating.rate.toStringAsFixed(1),
                               style: textTheme.bodyMedium!.copyWith(
                                 fontSize: AppConstants.sp_14,
                                 color: AppColors.bodyTextColor,

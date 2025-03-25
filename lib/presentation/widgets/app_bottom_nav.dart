@@ -25,13 +25,13 @@ class AppBottomNav extends StatelessWidget {
           onTap: (int index) {
             switch (index) {
               case 0:
-                context.go(AppRoutes.home);
+                context.push(AppRoutes.home);
                 break;
               case 1:
-                context.go(AppRoutes.fav);
+                context.push(AppRoutes.fav);
                 break;
               case 2:
-                context.go(AppRoutes.cart);
+                context.push(AppRoutes.cart);
                 break;
             }
           },

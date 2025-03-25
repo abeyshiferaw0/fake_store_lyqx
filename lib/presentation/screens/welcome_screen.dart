@@ -63,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     text: "Login",
                     onPressed: () {
                       //Navigate to
-                      context.go(AppRoutes.login);
+                      context.push(AppRoutes.login);
                     },
                     type: ButtonType.dark,
                   ),

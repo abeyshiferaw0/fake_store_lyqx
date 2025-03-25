@@ -19,4 +19,8 @@ class ApiService {
     final response = await _dio.get('/products');
     return response.data;
   }
+  Future fetchProduct(int id) async {
+    final response = await _dio.get('/products/$id');
+    return response.data;
+  }
 }
