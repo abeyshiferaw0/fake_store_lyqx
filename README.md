@@ -1,6 +1,6 @@
 # E-Commerce App (Fake Store LYQX)
 
-This is a simple E-Commerce App built with Flutter, designed to showcase the skills required by job description. The app simulates an e-commerce shopping experience with features like Auth ,product listing, adding to a cart, remove from cart . The app is designed to be responsive and user-friendly.
+This is a simple E-Commerce App built with Flutter
 
 ## Installation
 
